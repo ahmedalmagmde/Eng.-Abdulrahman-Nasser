@@ -576,6 +576,164 @@
       color: var(--text-muted);
     }
 
+    /* ========== ANIMATED ACHIEVEMENTS SECTION ========== */
+    .achievements-section {
+      padding: 6rem 2rem;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .achievements-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .achievements-track {
+      display: flex;
+      gap: 2rem;
+      animation: scroll-track 30s linear infinite;
+      width: max-content;
+      padding: 1rem 0;
+    }
+    .achievements-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes scroll-track {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .achievement-card {
+      flex-shrink: 0;
+      width: 340px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+    }
+    .achievement-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-primary), var(--gold-light), var(--gold-primary), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer-line 3s linear infinite;
+    }
+    @keyframes shimmer-line {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .achievement-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1.5px;
+      background: conic-gradient(from var(--angle, 0deg), transparent 60%, var(--gold-primary), var(--gold-light), var(--gold-primary), transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+    .achievement-card:hover::after {
+      opacity: 1;
+      animation: rotate-border 4s linear infinite;
+    }
+    @keyframes rotate-border {
+      from { --angle: 0deg; }
+      to { --angle: 360deg; }
+    }
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    .achievement-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: transparent;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 40px rgba(201,168,76,0.15);
+    }
+
+    .achievement-icon-wrap {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .achievement-icon-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(201,168,76,0.2), transparent);
+      animation: icon-shine 3s ease-in-out infinite;
+    }
+    @keyframes icon-shine {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
+    .achievement-icon-wrap i {
+      font-size: 1.5rem;
+      color: var(--gold-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .achievement-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+    .achievement-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .achievement-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .achievements-fade-left,
+    .achievements-fade-right {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 150px;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .achievements-fade-left {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-primary), transparent);
+    }
+    .achievements-fade-right {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-primary), transparent);
+    }
+
     /* Footer */
     .footer {
       padding: 3rem 2rem;
@@ -604,6 +762,7 @@
     html[lang="en"] .lang-toggle { left: auto; right: 1.5rem; }
     html[lang="en"] .section-label::before { right: auto; left: calc(100% + 15px); }
     html[lang="en"] .section-label::after { left: auto; right: calc(100% + 15px); }
+    html[lang="en"] .achievements-track { animation-direction: reverse; }
 
     .ar-text, .en-text { display: none; }
     html[lang="ar"] .ar-text { display: block; }
@@ -635,6 +794,7 @@
       .section-title { font-size: 1.8rem; }
       .contact-bar { flex-direction: column; align-items: center; }
       .contact-btn { width: 100%; max-width: 300px; justify-content: center; }
+      .achievement-card { width: 280px; }
     }
 
     /* Fade-in animation */
@@ -648,6 +808,7 @@
       transform: translateY(0);
     }
   </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -669,7 +830,7 @@
         <div class="profile-frame">
           <div class="ring-outer"></div>
           <div class="ring-middle"></div>
-          <img src="image_ee4729.png" alt="Abdulrahman Nasser" class="profile-img">
+          <img src="image_ee4729.png" alt="https://imgur.com/a/4zE0JDW" class="profile-img">
         </div>
       </div>
       <div class="hero-text">
@@ -1021,6 +1182,177 @@
           <div class="cert-sub">
             <span class="ar-text">الهندسة الكهربائية</span>
             <span class="en-text">Electrical Engineering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ANIMATED ACHIEVEMENTS SECTION ========== -->
+  <section class="achievements-section">
+    <div class="section-header fade-in" style="margin-bottom: 3rem;">
+      <div class="section-label">
+        <span class="ar-text">الإنجازات</span>
+        <span class="en-text">Achievements</span>
+      </div>
+      <h2 class="section-title">
+        <span class="ar-text">إنجازات بارزة</span>
+        <span class="en-text">Key Achievements</span>
+      </h2>
+      <p class="section-subtitle">
+        <span class="ar-text">أبرز النتائج الملموسة في مسيرتي المهنية</span>
+        <span class="en-text">Tangible results throughout my career</span>
+      </p>
+    </div>
+
+    <div style="position: relative; overflow: hidden;">
+      <div class="achievements-fade-left"></div>
+      <div class="achievements-fade-right"></div>
+      <div class="achievements-track" id="achievementsTrack">
+        <!-- Cards duplicated for seamless loop -->
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-bolt"></i></div>
+          <div class="achievement-number">120 MW</div>
+          <div class="achievement-title">
+            <span class="ar-text">إدارة محطة كهرباء</span>
+            <span class="en-text">Power Plant Management</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">قيادة العمليات والصيانة لمحطة كهرباء بقدرة 120 ميجاوات مع محطة تحلية ومياه.</span>
+            <span class="en-text">Leading O&M for a 120 MW power plant with desalination and water facilities.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-industry"></i></div>
+          <div class="achievement-number">15K</div>
+          <div class="achievement-title">
+            <span class="ar-text">طن/يوم إنتاجية</span>
+            <span class="en-text">Tons/Day Capacity</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">إدارة استراتيجية الصيانة لثلاث خطوط إنتاجية بطاقة 15,000 طن يومياً.</span>
+            <span class="en-text">Managing maintenance strategy for 3 production lines at 15,000 tons/day.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-plug"></i></div>
+          <div class="achievement-number">145M</div>
+          <div class="achievement-title">
+            <span class="ar-text">ريال مشاريع طاقة</span>
+            <span class="en-text">SAR Power Projects</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">إدارة مشاريع الاتصال بالشبكة وتحويل الغاز الطبيعي بقيمة 145 مليون ريال.</span>
+            <span class="en-text">Managing grid connection & natural gas conversion projects worth 145M SAR.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-arrow-down"></i></div>
+          <div class="achievement-number">20%</div>
+          <div class="achievement-title">
+            <span class="ar-text">تقليل التوقفات</span>
+            <span class="en-text">Downtime Reduction</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">تحقيق تقليل بنسبة 20% في أوقات التوقف غير المخطط عبر تحسين الموثوقية.</span>
+            <span class="en-text">Achieved 20% reduction in unplanned downtime through reliability improvements.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-coins"></i></div>
+          <div class="achievement-number">12%</div>
+          <div class="achievement-title">
+            <span class="ar-text">توفير نفقات الصيانة</span>
+            <span class="en-text">Maintenance Cost Savings</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">خفض نفقات الصيانة بنسبة 12% عبر التخطيط الاستباقي وإدارة المخزون.</span>
+            <span class="en-text">Reduced maintenance costs by 12% through proactive planning and inventory management.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-leaf"></i></div>
+          <div class="achievement-number">8%</div>
+          <div class="achievement-title">
+            <span class="ar-text">تحسين كفاءة الطاقة</span>
+            <span class="en-text">Energy Efficiency Gain</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">رفع كفاءة استهلاك الطاقة بنسبة 8% من خلال تحسينات العمليات والأنظمة.</span>
+            <span class="en-text">Improved energy consumption efficiency by 8% through process and system optimizations.</span>
+          </div>
+        </div>
+        <!-- Duplicate for seamless infinite scroll -->
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-bolt"></i></div>
+          <div class="achievement-number">120 MW</div>
+          <div class="achievement-title">
+            <span class="ar-text">إدارة محطة كهرباء</span>
+            <span class="en-text">Power Plant Management</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">قيادة العمليات والصيانة لمحطة كهرباء بقدرة 120 ميجاوات مع محطة تحلية ومياه.</span>
+            <span class="en-text">Leading O&M for a 120 MW power plant with desalination and water facilities.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-industry"></i></div>
+          <div class="achievement-number">15K</div>
+          <div class="achievement-title">
+            <span class="ar-text">طن/يوم إنتاجية</span>
+            <span class="en-text">Tons/Day Capacity</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">إدارة استراتيجية الصيانة لثلاث خطوط إنتاجية بطاقة 15,000 طن يومياً.</span>
+            <span class="en-text">Managing maintenance strategy for 3 production lines at 15,000 tons/day.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-plug"></i></div>
+          <div class="achievement-number">145M</div>
+          <div class="achievement-title">
+            <span class="ar-text">ريال مشاريع طاقة</span>
+            <span class="en-text">SAR Power Projects</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">إدارة مشاريع الاتصال بالشبكة وتحويل الغاز الطبيعي بقيمة 145 مليون ريال.</span>
+            <span class="en-text">Managing grid connection & natural gas conversion projects worth 145M SAR.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-arrow-down"></i></div>
+          <div class="achievement-number">20%</div>
+          <div class="achievement-title">
+            <span class="ar-text">تقليل التوقفات</span>
+            <span class="en-text">Downtime Reduction</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">تحقيق تقليل بنسبة 20% في أوقات التوقف غير المخطط عبر تحسين الموثوقية.</span>
+            <span class="en-text">Achieved 20% reduction in unplanned downtime through reliability improvements.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-coins"></i></div>
+          <div class="achievement-number">12%</div>
+          <div class="achievement-title">
+            <span class="ar-text">توفير نفقات الصيانة</span>
+            <span class="en-text">Maintenance Cost Savings</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">خفض نفقات الصيانة بنسبة 12% عبر التخطيط الاستباقي وإدارة المخزون.</span>
+            <span class="en-text">Reduced maintenance costs by 12% through proactive planning and inventory management.</span>
+          </div>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon-wrap"><i class="fas fa-leaf"></i></div>
+          <div class="achievement-number">8%</div>
+          <div class="achievement-title">
+            <span class="ar-text">تحسين كفاءة الطاقة</span>
+            <span class="en-text">Energy Efficiency Gain</span>
+          </div>
+          <div class="achievement-desc">
+            <span class="ar-text">رفع كفاءة استهلاك الطاقة بنسبة 8% من خلال تحسينات العمليات والأنظمة.</span>
+            <span class="en-text">Improved energy consumption efficiency by 8% through process and system optimizations.</span>
           </div>
         </div>
       </div>
