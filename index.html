@@ -734,6 +734,81 @@
       background: linear-gradient(to left, var(--bg-primary), transparent);
     }
 
+    /* ========== CV Download Button ========== */
+    .cv-download-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem 3rem;
+      border-radius: 16px;
+      text-decoration: none;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--bg-primary);
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3), 0 0 0 0 rgba(201, 168, 76, 0.4);
+      animation: cv-pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes cv-pulse {
+      0%, 100% { box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3), 0 0 0 0 rgba(201, 168, 76, 0.4); }
+      50% { box-shadow: 0 10px 30px rgba(201, 168, 76, 0.4), 0 0 0 15px rgba(201, 168, 76, 0); }
+    }
+    .cv-download-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 20px 50px rgba(201, 168, 76, 0.5), 0 0 60px rgba(201, 168, 76, 0.2);
+      animation: none;
+    }
+    .cv-download-btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+    .cv-btn-glow {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .cv-download-btn:hover .cv-btn-glow {
+      opacity: 1;
+      animation: glow-rotate 3s linear infinite;
+    }
+    @keyframes glow-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .cv-btn-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .cv-btn-content i {
+      font-size: 1.4rem;
+    }
+    .cv-btn-ext {
+      background: rgba(0,0,0,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-right: 0.3rem;
+    }
+    html[lang="en"] .cv-btn-ext {
+      margin-right: 0;
+      margin-left: 0.3rem;
+    }
+
     /* Footer */
     .footer {
       padding: 3rem 2rem;
@@ -1355,6 +1430,44 @@
             <span class="en-text">Improved energy consumption efficiency by 8% through process and system optimizations.</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download CV Section -->
+  <section class="section" style="background: rgba(12,13,18,0.5); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%); pointer-events: none;"></div>
+    <div class="section-inner" style="position: relative; z-index: 1;">
+      <div class="section-header fade-in">
+        <div class="section-label">
+          <span class="ar-text">السيرة الذاتية</span>
+          <span class="en-text">Resume</span>
+        </div>
+        <h2 class="section-title">
+          <span class="ar-text">تحميل السيرة الذاتية</span>
+          <span class="en-text">Download My Resume</span>
+        </h2>
+        <p class="section-subtitle">
+          <span class="ar-text">احصل على نسخة PDF من السيرة الذاتية الكاملة</span>
+          <span class="en-text">Get a PDF copy of the full resume</span>
+        </p>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1.5rem;">
+        <a href="Abdulrahman_cv.pdf" download class="cv-download-btn fade-in">
+          <span class="cv-btn-glow"></span>
+          <span class="cv-btn-content">
+            <i class="fas fa-file-pdf"></i>
+            <span class="cv-btn-text">
+              <span class="ar-text inline">تحميل السيرة الذاتية</span>
+              <span class="en-text inline">Download Resume</span>
+            </span>
+            <span class="cv-btn-ext">PDF</span>
+          </span>
+        </a>
+        <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+          <span class="ar-text">الملف بصيغة PDF · حجم الملف ~2 MB</span>
+          <span class="en-text">PDF format · File size ~2 MB</span>
+        </p>
       </div>
     </div>
   </section>
